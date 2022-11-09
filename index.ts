@@ -4,7 +4,7 @@ import { router } from "./routes/router";
 import bodyParser from "body-parser";
 import cors from 'cors';
 
-const server = new Server();
+const server = Server.instance;
 //bodyParser
 server.app.use(bodyParser.urlencoded({extended:true}));//permitir recuperar datos enviados en el request
 server.app.use(bodyParser.json())//parsear a json
