@@ -38,10 +38,13 @@ export default class Server {//clase que se exporta para otras clases
         
         //this.io.on para saber cuando se conecta alguien
         this.io.on('connection' , cliente => {
-            console.log('Cliente conectado ahora...');
+            //console.log(cliente.id);//id cliente por cada conexion
+            //conectarCliente
+            socket.conectarCliente(cliente);
+            //login - configurar usuario
+            socket.configurarUsuario(cliente, this.io);
             //escuchar mensaje
             socket.mensaje(cliente, this.io);
-
             //para saber cuando se desconecta un cliente
             /*cliente.on('disconnect' , () => {
                 console.log('Cliente Desconectado');
