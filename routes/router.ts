@@ -1,6 +1,8 @@
 
 import {Router, Request, Response} from 'express';
 import Server from '../classes/server';
+import { UsuariosLista } from '../classes/usuarios-lista';
+import { usuariosConectados } from '../sockets/socket';
 //Router se utiliza para crear los api restfulls
 
 export const router = Router();//export para que se use en otras clases
@@ -56,3 +58,37 @@ router.post('/mensajes/:id', (req:Request, res:Response)=>{
         id
     })
 })
+
+//servicio para obtener todos los ids de usuarios
+router.get('/usuarios',async (req: Request, res: Response) => {
+    const server = Server.instance;
+    await server.io.fetchSockets().then((sockets) => {
+        res.json({
+            ok: true,
+            // clientes
+            clientes: sockets.map( cliente => cliente.id)
+        });
+    }).catch((err) => {
+        res.json({
+            ok: false,
+            err
+        })
+    });
+});
+
+
+//obtener usuarios y sus nombres
+router.get('/usuarios/detalle',async (req: Request, res: Response) => {
+    
+    res.json({
+        ok: true,
+        // clientes
+        clientes: usuariosConectados.getLista()
+    });
+});
+
+
+
+
+
+

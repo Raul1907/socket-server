@@ -40,18 +40,22 @@ export default class Server {//clase que se exporta para otras clases
         this.io.on('connection' , cliente => {
             //console.log(cliente.id);//id cliente por cada conexion
             //conectarCliente
-            socket.conectarCliente(cliente);
+            socket.conectarCliente(cliente, this.io);
             //login - configurar usuario
             socket.configurarUsuario(cliente, this.io);
+            //obtener usuarios activos
+            socket.obtenerUsuarios(cliente, this.io);
             //escuchar mensaje
             socket.mensaje(cliente, this.io);
+
+            
             //para saber cuando se desconecta un cliente
             /*cliente.on('disconnect' , () => {
                 console.log('Cliente Desconectado');
             });*/
             //se utiliza la funcion desconectar de escuchar de la clase socket.ts
             
-            socket.desconectar(cliente);
+            socket.desconectar(cliente, this.io);
         });
 
     }
